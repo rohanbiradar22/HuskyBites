@@ -1,0 +1,15 @@
+.checkout-container-div{
+    display: flex;
+    justify-content: center;
+
+    .checkout-card {
+        width: 100vh;
+        padding: 20px 30px;
+    }
+}
+
+.action-btn-div {
+    display: flex; 
+    justify-content: flex-end; 
+    width: 100%;
+}

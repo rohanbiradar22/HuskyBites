@@ -1,0 +1,61 @@
+.company-name {
+  display: flex;
+  align-items: center;
+  justify-self: left;
+}
+
+.company-first-word {
+  font-weight: 400;
+  color: red;
+  font-size: 28px;
+}
+
+.company-last-word {
+  color: black;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+.dark-mode {
+  float: right;
+}
+
+.cart {
+  float: right;
+  margin-left: 20px;
+  margin-right: 40px;
+}
+
+.drawer {
+  /* width: 250px; */
+  padding-inline: 25px;
+  padding-top: 60px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  /* margin-top: 30px; */
+}
+
+.cart-badge {
+  font-size: small;
+  position: absolute;
+  background-color: red;
+  border-radius: 50%;
+  width: 1.3rem;
+  color: white;
+  text-align: center;
+  right: 3rem;
+  top: 0.5rem;
+}
+.cart-icon {
+  background-color: black;
+}
+
+.header-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: row;
+}

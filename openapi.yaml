@@ -1,0 +1,1417 @@
+openapi: 3.1.0
+info:
+  title: Husky Bites APIs
+  description: REST API to search courses offered.
+  version: 'v1.0'
+servers: 
+  - url: http://localhost:8080
+paths: 
+  /user/login:
+    post:
+      tags:
+        - user 
+      operationId: user-login
+      description: Authenticate user credentials
+      parameters: 
+        - name: username
+          in: header 
+          required: true
+          example: ashish@gmail.com
+          schema:
+            type: string
+        - name: password
+          in: header 
+          required: true
+          example: ashish@123
+          schema:
+            type: string
+      responses: 
+        "200":
+          description: Login Successful
+          content:
+            application/json:
+              schema: 
+                type: object
+                $ref: "#/components/schemas/Login"
+        "401":
+          description: Unauthenticated
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/Error"
+        "501":
+          description: Server Error
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/Error"
+
+  /user/register:
+      post:
+        tags:
+        - user 
+        operationId: user-registration
+        description: Register User
+        parameters: 
+        - name: name
+          in: header 
+          required: true
+          example: "Rohit Sharma"
+          schema:
+            type: string
+        - name: email
+          in: header 
+          required: true
+          example: ashish@gmail.com
+          schema:
+            type: string
+        - name: phoneNumber
+          in: header 
+          required: false
+          example: ashish@gmail.com
+          schema:
+            type: string
+        - name: password
+          in: header 
+          required: true
+          example: ashish@123
+          schema:
+            type: string
+        responses:
+          "200":
+            description: Login Successful
+            content:
+              application/json:
+                schema: 
+                  type: object
+                  $ref: "#/components/schemas/Register"
+          "501":
+            description: Server Error
+            content: 
+              application/json: 
+                schema:
+                  type: object
+                  $ref: "#/components/schemas/Error"
+
+  /user/updateUser:
+      put:
+        tags:
+        - user 
+        operationId: update-user
+        description: Update User
+        parameters: 
+        - name: name
+          in: header 
+          required: false
+          example: "Rohit Sharma"
+          schema:
+            type: string
+        - name: phoneNumber
+          in: header 
+          required: false
+          example: "+1 211 1212 12"
+          schema:
+            type: string
+        - name: password
+          in: header 
+          required: false
+          example: "ashish@123"
+          schema:
+            type: string
+        - name: profilePhoto
+          in: header 
+          required: false
+          example: "https://imageUrl.com"
+          schema:
+            type: string
+        - name: address
+          in: header 
+          required: false
+          schema:
+            type: string
+        responses:
+          "200":
+            description: Successful User Updation
+            content:
+              application/json:
+                schema: 
+                  type: object
+                  $ref: "#/components/schemas/UpdatedUser"
+          "501":
+            description: Server Error
+            content: 
+              application/json: 
+                schema:
+                  type: object
+                  $ref: "#/components/schemas/Error"
+
+  /user/forgotPassword:
+    post:
+      tags:
+        - user 
+      operationId: forgot-password
+      description: Forgot Password
+      parameters:
+        - name: email
+          in: header 
+          required: true
+          example: "ashish@gmail.com"
+          schema:
+            type: string
+      responses:
+          "200":
+            description: Send otp to entered email
+            content:
+              application/json:
+                schema: 
+                  type: object
+                  $ref: "#/components/schemas/ForgotPassword"
+          "500":
+            description: Invalid Email
+            content: 
+              application/json: 
+                schema:
+                  type: object
+                  $ref: "#/components/schemas/Error"
+
+  /user/updatePassword:
+    post:
+      tags:
+        - user 
+      operationId: update-password
+      description: Update Password
+      parameters:
+        - name: email
+          in: header 
+          required: true
+          example: "ashish@gmail.com"
+          schema:
+            type: string
+        - name: newPassword
+          in: header 
+          required: true
+          example: "ashish@11223344"
+          schema:
+            type: string
+        - name: otp
+          in: header 
+          required: true
+          example: "5428"
+          schema:
+            type: string
+      responses:
+          "200":
+            description: Successful Password updation
+            content:
+              application/json:
+                schema: 
+                  type: object
+                  $ref: "#/components/schemas/UpdatedPassword"
+          "500":
+            description: Invalid Opt
+            content: 
+              application/json: 
+                schema:
+                  type: object
+                  $ref: "#/components/schemas/Error"
+
+  /user/getCurrentUser:
+      get:
+        tags:
+        - user   
+        operationId: get-current-user
+        description: Get current user
+        responses:
+          "200":
+            description: AUthenticate User
+            content:
+              application/json:
+                schema: 
+                  type: object
+                  $ref: "#/components/schemas/AuthenticateUser"
+          "401":
+            description: User Unauthenticated
+            content: 
+              application/json: 
+                schema:
+                  type: object
+                  $ref: "#/components/schemas/Error"
+  /restaurants:
+        get:
+          tags:
+            - restaurant
+          summary: Get all restaurants
+          description: Registers a restaurant
+          operationId: getrestaurants
+          responses:
+            2XX:
+              description: Successful response with restaurant data
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/SuccessResponse'
+                    description: Data has value of type Restaurant
+            4XX:
+              description: Client error response
+              content:
+                application/json: 
+                  schema:
+                    $ref: '#/components/schemas/ClientErrorResponse'
+            5XX: 
+              description: Server error response
+              content:
+                application/json: 
+                  schema:
+                    $ref: '#/components/schemas/ServerErrorResponse'
+  /restaurant/register:
+    post:
+      tags:
+        - restaurant
+      summary: Register restaurant
+      description: Registers a restaurant
+      operationId: registerrestaurant
+      requestBody:
+        description: Register Restaurant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurant'
+        required: true
+      responses: 
+        2XX:
+          description: Restaurant Created Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has value of type Restaurant
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+
+  /restaurants/{restaurantId}:
+    get:
+      tags:
+        - restaurant
+      summary: Get specific restaurant details
+      description: Get specific restaurant details
+      operationId: getrestaurant
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          description: ID of the restaurant to retrieve
+          schema:
+            type: string
+            format: uuid
+      responses:
+        2XX:
+          description: Successful response return restaurant object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has value of type Restaurant
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'        
+    put:
+      tags:
+        - restaurant
+      summary: Update details of restaurant
+      description: update restaurant details
+      operationId: updaterestaurant
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          description: ID of the restaurant to retrieve
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Register Restaurant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurant'
+        required: true
+      responses:
+        2XX:
+          description: Successful response return updated restaurant object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has value of type Restaurant
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    delete:
+      tags:
+        - restaurant
+      summary: Delete restaurant
+      description: Delete restaurant
+      operationId: deleterestaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          description: ID of the restaurant to delete
+          schema:
+            type: string
+      responses:
+        2XX:
+          description: Successful response delete restaurant object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has Restaurant Id
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+
+  /restaurants/{restaurantId}/foodItems/add:
+    post:
+      tags:
+        - foodItem
+      summary: Create new food item for restaurant
+      description: update restaurant details
+      operationId: addfooditemtomenu
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          description: ID of the restaurant to add a food item
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodItem'
+      responses:
+        2XX:
+          description: Food Item Added Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has object of added food item
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    get:
+      tags:
+        - foodItem
+      summary: Get food items for restaurant
+      description: Get food items for restaurant
+      operationId: getfooditemsofrestaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          description: ID of the restaurant to retrieve food items
+          schema:
+            type: string
+      responses:
+        2XX:
+          description: Food Item Added Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has array of FoodItems
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX: 
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /restaurants/{restaurantId}/foodItems/{foodItemId}:
+    delete:
+      tags:
+        - foodItem
+      summary: Delete food item for restaurant
+      description: Delete food item for restaurant
+      operationId: deletfooditemofrestaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          description: ID of the restaurant
+          schema:
+            type: string
+        - in: path
+          name: foodItemId
+          required: true
+          description: ID of the food item to delete
+          schema:
+            type: string
+      responses:
+        2XX:
+          description: Food Item Added Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has food item id
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    put:
+      tags:
+        - foodItem
+      summary: Update food item for restaurant
+      description: Update food item for restaurant
+      operationId: updatefooditemsofrestaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          description: ID of the restaurant
+          schema:
+            type: string
+        - in: path
+          name: foodItemId
+          required: true
+          description: ID of the food item to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodItem'
+      responses:
+        2XX:
+          description: Food Item Added Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                description: Data has updated food item object
+        4XX:
+          description: Client error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /orders/all:
+    get:
+      summary: Get all orders in the system
+      tags:
+        - orders
+      responses:
+        2XX:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates whether the request was successful.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Order"
+                    description: List of orders
+                  message:
+                    type: string
+                    description: A message related to the success or failure of the request.
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /orders/search:
+    get:
+      summary: Get a list of orders with pagination and optional userId filtering
+      tags:
+        - orders
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 10
+          description: Number of items per page
+        - in: query
+          name: userId
+          schema:
+            type: string
+          description: Filter orders by userId
+      responses:
+        2XX:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+                properties:
+                  success: 
+                    type: boolean 
+                  data:
+                    type: object
+                    $ref: "#/components/schemas/Order"
+                  message:
+                    type: string
+                    examples: 
+                      - "Retrieved orders successfully"
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /orders:
+    post:
+      summary: Create a new order
+      tags:
+        - orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Order"
+      responses:
+        2XX:
+          description: Order created successfully
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: "order1"
+                message: "Order created successfully"
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /orders/{orderId}:
+    get:
+      summary: Get order by orderId
+      tags:
+        - orders
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          description: ID of the order to be updated
+          schema:
+            type: string
+      responses:
+        2XX:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+                properties:
+                  success: 
+                    type: boolean 
+                  data:
+                    type: object
+                    $ref: "#/components/schemas/Order"
+                  message:
+                    type: string
+                    examples: 
+                      - "Retrieved order successfully"
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    put:
+      summary: Update an existing order
+      tags:
+        - orders
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          description: ID of the order to be updated
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Order"
+            example:
+              status: "Delivered"
+              deliveredIn: "1.5 hours"
+      responses:
+        2XX:
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Order"
+              example:
+                success: true
+                data:
+                  id: "order1"
+                message: "Order updated successfully"
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    delete:
+      summary: Delete an existing order
+      tags:
+        - orders
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          description: ID of the order to be deleted
+          schema:
+            type: string
+      responses:
+        2XX:
+          description: Order deleted successfully
+          content:
+            application/json:
+              schema:  
+                type: object
+                $ref: "#/components/schemas/Order"
+              example:
+                success: true
+                data:
+                  id: "order1"
+                message: "Order deleted successfully"
+        4XX:
+          description: Client error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        5XX:
+          description: Server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'    
+    
+  /deliveryexecutives/{executiveId}/create-profile:
+    post:
+      summary: Create Delivery Executive Profile (To add a new Delivery executive)
+      description: Create the profile of a delivery executive.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeliveryExecutiveProfile'
+      responses:
+        '200':
+          description: Delivery executive profile created successfully
+          content:
+            application/json:
+              example:
+                message: "Delivery executive profile created successfully."
+                updatedProfile:
+                  $ref: '#/components/schemas/DeliveryExecutive'
+        '404':
+          description: Something is broken. Not Found.
+        '422':
+          description: Invalid request payload
+
+  /deliveryexecutives/{executiveId}/update-profile:
+    put:
+      summary: Update Delivery Executive Profile
+      description: Update the profile of a delivery executive based on the executive ID.
+      parameters:
+        - $ref: '#/components/parameters/DeliveryExecutiveId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryExecutiveProfile'
+      responses:
+        '200':
+          description: Delivery executive profile updated successfully
+          content:
+            application/json:
+              example:
+                message: "Delivery executive profile updated successfully."
+                updatedProfile:
+                  $ref: '#/components/schemas/DeliveryExecutive'
+        '404':
+          description: Delivery executive not found
+        '422':
+          description: Invalid request payload
+
+
+    
+
+components:
+  parameters:
+    DeliveryExecutiveId:
+      name: executiveId
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The ID of the delivery executive. 
+  schemas:
+    AuthenticateUser:
+      type: object
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: string
+          examples: 
+            - "User successfully"
+        data:
+          type: object
+          properties: 
+            user:
+              type: object
+              $ref: "#/components/schemas/User"  
+
+              
+    UpdatedPassword:
+      type: object
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: string
+          examples: 
+            - "Password successfully"  
+    ForgotPassword:
+      type: object
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: string
+          examples: 
+            - "Opt sent successfully"
+    UpdatedUser:
+      type: object
+      properties:
+        success:
+          type: boolean
+          examples:
+            - true
+        message:
+          type: string
+          examples: 
+            - "User Updated successfully"
+        data:
+          type: object
+          properties: 
+            user:
+              type: object
+              $ref: "#/components/schemas/User"
+    Register:
+      type: object
+      properties:
+        sucess:
+          type: boolean
+          examples:
+            - success: true
+        message:
+          type: string
+          examples:
+            - "Registration Successful"
+        data:
+          type: object
+          properties: 
+            user:
+              type: object
+              $ref: "#/components/schemas/User"
+
+    Login:
+      type: object
+      properties: 
+        success:
+          type: boolean
+          examples:
+            - success: true
+        message:
+          type: string
+          examples:
+            - "Login Successful"
+        data:
+          type: object
+          properties:
+            user:
+              type: object
+              $ref: "#/components/schemas/User"
+            token:
+              type: string
+              examples: 
+                - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    User:
+      type: object
+      properties: 
+        id:
+          type: string
+          examples: 
+            - "3423_232_2323"
+        name:
+          type: string
+          examples: 
+            - "Rohit Sharma"
+        email:
+          type: string
+          examples: 
+            - "rohit@gmail.com"
+        phoneNumber:
+          type: string
+          examples:  
+            - "+1 233 2323 23"
+        profilePhoto:
+          type: string
+          examples:
+            - "https://imageUrl.com"
+        address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Card"
+        orderHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        favourites:
+          type: array
+          items:
+            $ref:  "#/components/schemas/Restaurant"
+        ongoingOrder: 
+          type: object
+          $ref: "#/components/schemas/Order"
+          
+    Card:
+      type: object
+      properties:
+        cardNumber:
+          type: string
+          description: The card number.
+        expiryDate:
+          type: string
+          format: date
+          description: The card's expiry date.
+        cardHolderName:
+          type: string
+          description: The name on the card
+
+    Address:
+      type: object
+      properties:
+        addressLine:
+          type: string
+          description: The street address line.
+          examples:
+            - addressLine: 221B Baker Street
+        city:
+          type: string
+          description: The city of the address.
+          examples:
+            - city: Boston
+        state:
+          type: string
+          description: The state or region of the address.
+          examples:
+            - state: Massachusets
+        country:
+          type: string
+          description: The country of the address.
+          examples:
+            - country: United States of America
+        zipCode:
+          type: string
+          description: The ZIP or postal code of the address.
+          examples:
+            - zipCode: 02120
+        geoLocation:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: double
+              description: The latitude coordinate of the address.
+            longitude:
+              type: number
+              format: double
+              description: The longitude coordinate of the address.
+          description: The geographical location coordinates of the address.
+          examples:
+            - latitude: 51.523880452913
+            - longitude: -0.1585449744738932
+    
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the order.
+        userId:
+          type: string
+          format: uuid
+          description: The unique identifier for the user.
+        foodItems:
+          type: array
+          items:
+            type: object
+            properties:
+              itemId:
+                type: string
+                format: uuid
+                description: The unique identifier for the food item.
+              quantity:
+                type: integer
+                description: The quantity of the food item in the order.
+            description: Food items and their quantities in the order.
+        promoCode:
+          type: string
+          description: The promotional code used for the order.
+        status:
+          type: string
+          description: The status of the order (e.g., "Processing", "Delivered").
+        restaurantId:
+          type: string
+          format: uuid
+          description: The unique identifier for the restaurant.
+        paymentDetails:
+          type: object
+          properties:
+            cardUsed:
+              type: object
+              properties:
+                cardNumber:
+                  type: string
+                  description: The card number.
+                expiryDate:
+                  type: string
+                  format: date
+                  description: The card's expiry date.
+                cardHolderName:
+                  type: string
+                  description: The name on the card.
+            cash:
+              type: number
+              description: The amount paid in cash (if applicable).
+          description: Payment details for the order.
+        finalAmount:
+          type: number
+          format: double
+          description: The final amount to be paid for the order.
+        restaurantName:
+          type: string
+          description: The name of the restaurant.
+        specialInstructions:
+          type: string
+          description: Special instructions for the order.
+        ETA:
+          type: string
+          format: date-time
+          description: The estimated time of arrival for the order.
+        deliveredIn:
+          type: string
+          description: The actual time taken for order delivery.
+        tip:
+          type: number
+          format: double
+          description: The tip amount for the delivery executive.
+        deliveryExecutiveId:
+          type: string
+          format: uuid
+          description: The unique identifier for the delivery executive has context menu
+
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the restaurant.
+          examples:
+            - d290f1ee-6c54-4b01-90e6-d701748f0851
+        foodItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/FoodItem'
+          description: The list of food items offered by the restaurant.
+          examples:
+            -
+              - id: d290f1ee-6c54-4b01-90e6-d701748f0851
+                foodImage: '/img/zhunka-bhaker.png'
+                restaurantId: d290f1ee-6c54-4b01-90e6-d701748f0851
+                price: 12.2
+                rating: 3.5
+        rating:
+          type: number
+          format: double
+          description: The overall rating of the restaurant.
+          examples:
+            - 3.5
+        # locationGeoTag:
+        #   type: object
+        #   properties:
+        #     latitude:
+        #       type: number
+        #       format: double
+        #       description: The latitude coordinate of the restaurant's location.
+        #     longitude:
+        #       type: number
+        #       format: double
+        #       description: The longitude coordinate of the restaurant's location.
+        #   description: The geographical coordinates of the restaurant's location.
+        #   examples:
+        #     - latitude: 51.523880452913
+        #       longitude: -0.1585449744738932
+        address:
+          $ref: '#/components/schemas/Address'
+          description: The address of the restaurant.
+          examples:
+            - addressLine: 221B Baker Street
+              city: Boston
+              state: Massachusetts
+              country: United States of America
+              zipCode: 02120
+              geoLocation:
+                latitide: 51.523880452913
+                longitude: -0.1585449744738932
+        phoneNumber:
+          type: string
+          description: The phone number of the restaurant.
+          examples:
+            - 1234567890
+        profilePhoto:
+          type: string
+          format: uri
+          description: URL of the restaurant's profile photo.
+          examples:
+            - '/img/profile-photo.png'
+        email:
+          type: string
+          format: email
+          description: The email address of the restaurant.
+          examples:
+            - a@b.com
+        password:
+          type: string
+          description: The password for restaurant authentication.
+          examples:
+            - Password@123#
+        cuisine:
+          type: array
+          items:
+            type: string
+          description: The cuisine type offered by the restaurant.
+          examples:
+            -
+              - Indian
+              - Italian
+              - Arabian
+        offers:
+          type: array
+          items:
+            type: string
+          description: Special offers or promotions provided by the restaurant.
+          examples:
+            -
+              delhi20: 20% off
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the operation was successful.
+          default: true
+        message:
+          type: string
+          description: A message providing additional information about the success.
+
+    FoodItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the food item.
+          examples:
+            - d290f1ee-6c54-4b01-90e6-d701748f0851
+        foodImage:
+          type: string
+          format: uri
+          description: URL of the food item image.
+          examples:
+            - foodimage: '/img/zhunka-bhaker.png'
+        restaurantId:
+          type: string
+          format: uuid
+          description: The unique identifier for the restaurant.
+          examples:
+            - restaurantId: d290f1ee-6c54-4b01-90e6-d701748f0851
+        price:
+          type: number
+          format: double
+          description: The price of the food item.
+          examples:
+            - price: 10.2
+        rating:
+          type: number
+          format: double
+          description: The rating of the food item.
+          examples:
+            - rating: 2.3
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          examples:
+            - 401
+        message:
+          type: string
+          description: Error message
+          examples:
+            - "Invalid Credentials"
+
+    ClientErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error summary
+        message:
+          type: string
+          description: Error 
+
+    ServerErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error summary
+        message:
+          type: string
+          description: Error description
+
+    CreateDeliveryExecutiveProfile:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the delivery executive.
+          examples: 
+            - "Name Name"
+        phoneNumber:
+          type: string
+          description: The updated phone number of the delivery executive.
+          examples:
+            - "+11122334455"
+        email:
+          type: string
+          description: The updated email id of the delivery executive.
+          examples: 
+            - "delivery@abc.com"
+        profilePhoto:
+          type: string
+          format: uri
+          description: URL of the updated profile photo of the delivery executive.
+          examples:
+            - "https://abc.com/profile-photo.jpg"
+
+    UpdateDeliveryExecutiveProfile:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: The updated phone number of the delivery executive.
+          examples:
+            - "+11122334455"
+        email:
+          type: string
+          description: The updated email id of the delivery executive.
+          examples: 
+            - "delivery@abc.com"
+        profilePhoto:
+          type: string
+          format: uri
+          description: URL of the updated profile photo of the delivery executive.
+          examples:
+            - "https://abc.com/profile-photo.jpg"
+
+    DeliveryExecutive:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the delivery executive.
+          examples:
+            - "1a2beuuuu-5e6f-7g8h-euuu-1k2leuuuuo6p"
+        name:
+          type: string
+          description: The name of the delivery executive.
+          examples:
+            - "Name Name"
+        rating:
+          type: number
+          format: double
+          description: The rating of the delivery executive.
+          examples:
+            - 4.7
+        completedOrders:
+          type: integer
+          description: The number of completed orders by the delivery executive.
+          examples:
+            - 55
+        phoneNumber:
+          type: string
+          description: The phone number of the delivery executive.
+          examples:
+            - "+11122334455"
+        profilePhoto:
+          type: string
+          format: uri
+          description: URL of the delivery executive's profile photo.
+          examples:
+            - "https://abc.com/profile-photo.jpg"
+        status:
+          type: string
+          description: The status of the delivery executive (e.g., "Available", "Busy").
+          examples:
+            - "Available"
+

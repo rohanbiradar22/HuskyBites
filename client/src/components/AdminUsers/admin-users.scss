@@ -1,0 +1,22 @@
+.tbl-container {
+    max-height: 73vh;
+    margin-top: 10px;
+    overflow: auto;
+      
+      .users-tbl tbody tr:hover {
+        background-color: #f5f5f5;
+      }
+  }
+
+  .modal-cancel-btn {
+    color: grey;
+  }
+  
+  .modal-delete-btn {
+    background-color: black;
+    color: white;
+    &:hover {
+      background-color: black;  
+      color: white;           
+    }
+  }

@@ -1,0 +1,37 @@
+.restaurant-card {
+    border-radius: 25px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.restaurant-image {
+    border-radius: 25px 25px 0px 0px;
+}
+
+
+.card-text-div{
+    padding-bottom: 16px !important;
+    .card-text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.restaurant-name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.restaurant-rating-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #E8E8E8;
+    height: 30px;
+    width: 30px;
+    .restaurant-rating-text {
+        font-size: 14px;
+    }
+}

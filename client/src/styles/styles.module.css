@@ -1,0 +1,71 @@
+
+/* GLobal css module */
+.main_content {
+  margin-top: 65px; /* Height of the header */
+  padding: 50px 50px;
+  /* height: calc(
+    100vh - 65px
+  );   */
+  /* 100% viewport height minus the height of the header and footer */
+  /* overflow-y: auto; Enable vertical scrolling */
+}
+
+.register_image {
+  /* background-image: url("../../public/images/registerImage.jpg"); */
+}
+
+.login_image {
+  /* background-image: url("../../public/images/loginImage.jpg"); */
+}
+
+.auth_page {
+  display: flex;
+  justify-content: center;
+  /* height: 100vh; Set height to 100% of the viewport height */
+  background-size: cover; /* Cover the entire container */
+}
+
+.login_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.gridContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+}
+
+.spinner_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100vh !important;
+  /* height: calc(100vh-65px) !important; */
+  /* background-color: transparent; */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

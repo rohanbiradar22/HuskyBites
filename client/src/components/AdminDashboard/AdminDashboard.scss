@@ -1,0 +1,49 @@
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    column-gap: 30px;
+    row-gap: 35px;
+}
+
+.card {
+  width: 300px;
+  box-sizing: border-box;
+  padding: 2em;
+  font-family: Ubuntu;
+  border-radius: 20px;
+  color: white;
+  line-height: 25px;
+  box-shadow: 5px 5px 10px #ccc;
+  float: left;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.card:hover{
+    box-shadow: 20px 20px 30px #ccc;
+}
+
+.card.purple {
+  background: linear-gradient(200deg, #1fdedb, #489be3 100%);
+}
+
+.card.pink {
+  background: linear-gradient(200deg, #fd717b, #f4519f 100%);
+}
+
+.card.green {
+  background: linear-gradient(200deg, #3ee498, #3ab8b2 100%);
+}
+
+.card.yellow {
+  background: linear-gradient(200deg, #FED839, #FF8D56 100%);
+}
+
+
+
+

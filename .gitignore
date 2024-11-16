@@ -1,0 +1,5 @@
+dist
+node_modules
+*.log
+server/.env
+client/public/sw.js.map
